@@ -1,0 +1,20 @@
+{
+  "name": "ares",
+  "version": "1.0.0",
+  "description": "AWS Lambda API for storing Summoners War data",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ciaran Downey",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "serverless": "^1.28.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "serverless-http": "^1.6.0"
+  }
+}
