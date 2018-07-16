@@ -1,0 +1,13 @@
+# package management config
+.pnpm-store
+
+# package directories
+node_modules
+jspm_packages
+
+
+# Serverless directories
+.serverless
+
+npm-debug.log
+yarn-error.log
