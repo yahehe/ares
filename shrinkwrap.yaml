@@ -1,6 +1,7 @@
 dependencies:
   body-parser: 1.18.3
   bunyan: 1.8.12
+  cors: 2.8.4
   express: 4.16.3
   node-yaml-config: 0.0.3
   serverless-http: 1.6.0
@@ -804,7 +805,6 @@ packages:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2526,7 +2526,6 @@ packages:
     resolution:
       integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
   /object-assign/4.1.1:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3767,6 +3766,7 @@ shrinkwrapVersion: 3
 specifiers:
   body-parser: ^1.18.3
   bunyan: ^1.5.1
+  cors: ^2.8.4
   eslint: ^5.1.0
   express: ^4.16.3
   node-yaml-config: 0.0.3

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const config = require('./lib/config');
 const logger = require('./lib/logger');
 
@@ -8,12 +9,16 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 /*
  * Routes
  */
 app.use('/guilds', require('./routes/guilds'));
 app.use('/guildmazestatusinfo', require('./routes/guildmazestatusinfo'));
+
+// Documentation
+app.use(express.static('docs'));
 
 // catch 404
 app.use((req, res, next) => {
