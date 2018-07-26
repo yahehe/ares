@@ -1,5 +1,5 @@
 const express = require('express');
-const guildmazestatusinfo = require('../services/guildmazestatusinfo');
+const guildMazeStatusInfo = require('../services/guildMazeStatusInfo');
 
 const router = new express.Router();
 
@@ -11,7 +11,7 @@ router.post('/', async (req, res, next) => {
   };
 
   try {
-    const result = await guildmazestatusinfo.postGuildmazestatusinfo(options);
+    const result = await guildMazeStatusInfo.postGuildMazeStatusInfo(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({

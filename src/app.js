@@ -15,7 +15,7 @@ app.use(cors());
  * Routes
  */
 app.use('/guilds', require('./routes/guilds'));
-app.use('/guildmazestatusinfo', require('./routes/guildmazestatusinfo'));
+app.use('/guildmazestatusinfo', require('./routes/guildMazeStatusInfo'));
 
 // Documentation
 app.use(express.static('docs'));

@@ -3,7 +3,7 @@
  * @throws {Error}
  * @return {Promise}
  */
-module.exports.postGuildmazestatusinfo = async (options) => {
+module.exports.postGuildMazeStatusInfo = async (options) => {
   // Implement your business logic here...
   //
   // This function should return as follows:
@@ -23,7 +23,7 @@ module.exports.postGuildmazestatusinfo = async (options) => {
 
   return {
     status: 200,
-    data: 'postGuildmazestatusinfo ok!'
+    data: 'postGuildMazeStatusInfo ok!'
   };
 };
 
