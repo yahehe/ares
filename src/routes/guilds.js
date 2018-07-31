@@ -6,7 +6,7 @@ const router = new express.Router();
 /**
  * Retrieve guild maze status info for a specific guild/maze
  */
-router.get('/:guildId/mazes/:mazeId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const options = {
     guildId: req.params.guildId,
     mazeId: req.params.mazeId

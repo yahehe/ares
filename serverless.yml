@@ -1,100 +1,64 @@
 service: ares
-plugins:
-  - serverless-offline
+excludeDevDependencies: false
+#plugins:
+#  - serverless-offline
+#  - serverless-finch
 provider:
   name: aws
   runtime: nodejs8.10
-
-# you can overwrite defaults here
   stage: dev
   region: us-east-1
+  environment:
+    DYNAMODB_BASE: ${self:service}-${opt:stage, self:provider.stage}
+    GUILD_MAZE_STATUS_INFO: ${self:provider.environment.DYNAMODB_BASE}-GuildMazeStatusInfo
+    GUILD_MAZE_STATUS_INFO_PARTICIPATION: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-Participation
+    GUILD_MAZE_STATUS_INFO_SETUP_VALUES: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-SetupValues
+    GUILD_MAZE_STATUS_INFO_MAP_INFO: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-MapInfo
+    GUILD_MAZE_STATUS_INFO_TILES: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-Tiles
   iamRoleStatements:
-    -  Effect: "Allow"
-       Action:
-         - "s3:ListBucket"
-       Resource:
-         Fn::Join:
-           - ""
-           - - "arn:aws:s3:::"
-             - Ref: ServerlessDeploymentBucket
-    -  Effect: "Allow"
-       Action:
-         - "s3:PutObject"
-       Resource:
-         Fn::Join:
-           - ""
-           - - "arn:aws:s3:::"
-             - Ref: ServerlessDeploymentBucket
-             - "/*"
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_BASE}*"
 package:
+  excludeDevDependencies: false
+  exclude:
+    - ./**
   include:
     - index.js
     - src/**
     - config/**
     - node_modules/**
     - openapi.yaml
-  exclude:
-    - .git/**
-    - README.md
-    - .gitignore
 
 functions:
   ares:
     handler: index.handler
-
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
     events:
       - http:
-          path: guildmazestatusinfo
+          path: guilds/{guildId}/mazes/{mazeId}/guildmazestatusinfo
           method: post
+          cors: true
+          request:
+            parameters:
+              paths:
+                guildId: true
+                mazeId: true
       - http:
-          path: guilds/{guildId}/mazes/{mazeId}
+          path: guilds/{guildId}/mazes/{mazeId}/guildmazestatusinfo
           method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
+          cors: true
+          request:
+            parameters:
+              paths:
+                guildId: true
+                mazeId: true
+custom:
+  client:
+    bucketName: ares-www
+    distributionFolder: docs

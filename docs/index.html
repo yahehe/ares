@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  title: Data Ingester for SW
+  description: See above
+  version: 0.1.0
+paths:
+  /guilds/{guildId}/mazes/{mazeId}:
+    get:
+      summary: Retrieve guild maze status info for a specific guild/maze
+      parameters:
+        - in: path
+          name: guildId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: mazeId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildMazeStatusInfoResponse'
+  /guildmazestatusinfo:
+    post:
+      summary: Ingests guild maze status info
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostGuildMazeStatusInfo'
+      responses:
+        200:
+          description: OK
+components:
+  schemas:
+    GetGuildMazeStatusInfoResponse:
+      $ref: '#/components/schemas/PostGuildMazeStatusInfo'
+    PostGuildMazeStatusInfo:
+      type: object
+      properties:
+        command:
+          type: string
+        guildmaze_participation:
+          type: object
+          properties:
+            guild_id:
+              type: integer
+            maze_no:
+              type: integer
+            map_id:
+              type: integer
+            boss_open_count:
+              type: integer
+            boss_clear_count:
+              type: integer
+            maze_clear:
+              type: integer
+            total_score:
+              type: integer
+            auto_participation:
+              type: integer
+            start_time:
+              type: integer
+            grade_a_time:
+              type: integer
+            grade_b_time:
+              type: integer
+            grade_c_time:
+              type: integer
+            grade_f_time:
+              type: integer
+            reset_time:
+              type: integer
+            reward_time:
+              type: integer
+            ready_time:
+              type: integer
+            status:
+              type: integer
+            rating_id:
+              type: integer
+          required:
+            - guild_id
+            - maze_no
+            - map_id
+            - boss_open_count
+            - boss_clear_count
+            - maze_clear
+            - total_score
+            - auto_participation
+            - start_time
+            - grade_a_time
+            - grade_b_time
+            - grade_c_time
+            - grade_f_time
+            - reset_time
+            - reward_time
+            - ready_time
+            - status
+            - rating_id
+        setup_values:
+          type: object
+          properties:
+            max_lamp_count:
+              type: integer
+            grade_limit_list:
+              type: object
+              properties:
+                grade_a_time:
+                  type: integer
+                grade_b_time:
+                  type: integer
+                grade_c_time:
+                  type: integer
+                grade_f_time:
+                  type: integer
+              required:
+                - grade_a_time
+                - grade_b_time
+                - grade_c_time
+                - grade_f_time
+            time_wave_difficulty:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+            hp_gain_list:
+              type: array
+              items:
+                type: object
+                properties:
+                  battle_type:
+                    type: integer
+                  difficulty:
+                    type: integer
+                  reward_maze_score:
+                    type: integer
+                required:
+                  - battle_type
+                  - difficulty
+                  - reward_maze_score
+          required:
+            - max_lamp_count
+            - grade_limit_list
+            - time_wave_difficulty
+            - hp_gain_list
+        guildmaze_map_info:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+        guildmaze_tiles:
+          type: array
+          items:
+            type: object
+            properties:
+              guild_id:
+                type: integer
+              maze_no:
+                type: integer
+              tile_id:
+                type: integer
+              tile_type:
+                type: integer
+              battle_type:
+                type: integer
+              unit_group_id:
+                type: integer
+              hp:
+                type: integer
+              hp_gain:
+                type: integer
+              tile_status:
+                type: integer
+              add_time:
+                type: integer
+            required:
+              - guild_id
+              - maze_no
+              - tile_id
+              - tile_type
+              - battle_type
+              - unit_group_id
+              - hp
+              - hp_gain
+              - tile_status
+              - add_time
+        ts_val:
+          type: integer
+        tvalue:
+          type: integer
+        tvaluelocal:
+          type: integer
+        tzone:
+          type: string
+      required:
+        - command
+        - ret_code
+        - wizard_info
+        - guildmaze_participation
+        - setup_values
+        - guildmaze_map_info
+        - guildmaze_tiles
+        - guildmaze_member
+        - guildmaze_used_unit_id_list
+        - guildmaze_used_tile_id_list
+        - ts_val
+        - tvalue
+        - tvaluelocal
+        - tzone

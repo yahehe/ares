@@ -1,0 +1,95 @@
+service: ares
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+  environment:
+    DYNAMODB_BASE: ${self:service}-${opt:stage, self:provider.stage}
+    GUILD_MAZE_STATUS_INFO: ${self:provider.environment.DYNAMODB_BASE}-GuildMazeStatusInfo
+    GUILD_MAZE_STATUS_INFO_PARTICIPATION: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-Participation
+    GUILD_MAZE_STATUS_INFO_SETUP_VALUES: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-SetupValues
+    GUILD_MAZE_STATUS_INFO_MAP_INFO: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-MapInfo
+    GUILD_MAZE_STATUS_INFO_TILES: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}-Tiles
+resources:
+  Resources:
+    GuildMazeStatusInfoDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GUILD_MAZE_STATUS_INFO}
+    GuildMazeStatusInfoParticipationDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GUILD_MAZE_STATUS_INFO_PARTICIPATION}
+    GuildMazeStatusInfoSetupValuesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GUILD_MAZE_STATUS_INFO_SETUP_VALUES}
+    GuildMazeStatusInfoMapInfoDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GUILD_MAZE_STATUS_INFO_MAP_INFO}
+    GuildMazeStatusInfoTilesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GUILD_MAZE_STATUS_INFO_TILES}
